@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+  <head lang="en">
+    <meta charset="utf-8">
+    <title>Example 1</title>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+  </head>
+  
+  <body>
+    
+    <div id="container"></div>
+    <div id="log"></div>
+
+    https://seanburrows.com/hey-business-owners-googles-trying-to-end-search-with-their-knowledge-graph-feature/
+    <!-- Load JS last -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/84/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/16.3.5/Tween.min.js"></script>
+    
+    <script src="../assets/knowledgegraph.js"></script>
+    <script>
+        var KG = new knowledgegraph( {container : "#container"} );
+        $.getJSON( "data.json", function( data ) {
+          KG.dataManager.load(data,function()
+          {
+             KG.select("marge");
+          });
+        });
+       
+
+        KG.events.addListener("EntityClicked",function(entity)
+        {
+          console.log("Click on "+entity.getName());
+    
+          KG.select(entity.getName());
+        });
+
+        KG.events.addListener("EntityHoverOn",function(entity)
+        {
+          console.log("Hover on "+ entity.getName())
+          entity.setColor(0xff0000);
+        });
+
+        KG.events.addListener("EntityHoverOff",function(entity)
+        {
+          console.log("Hover off "+ entity.getName())
+          entity.setColor(0xffffff);
+        });
+    </script>
+
+    <!-- Stats -->
+    <script>(function(){var script=document.createElement('script');script.onload=function(){var stats=new Stats();document.body.appendChild(stats.dom);requestAnimationFrame(function loop(){stats.update();requestAnimationFrame(loop)});};script.src='//rawgit.com/mrdoob/stats.js/master/build/stats.min.js';document.head.appendChild(script);})() </script>
+
+  </body>
+  
+</html>
